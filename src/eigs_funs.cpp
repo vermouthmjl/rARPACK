@@ -1,7 +1,6 @@
 #include <RcppEigen.h>
 #include "EigsSym.h"
 #include "EigsGen.h"
-#include "EigsFun.h"
 #include "MatTypes.h"
 
 using Rcpp::as;
@@ -129,7 +128,7 @@ RcppExport SEXP eigs_fun(SEXP FUN_function_r, SEXP n_scalar_r, SEXP k_scalar_r,
     switch(as<int>(mattype_scalar_r))
     {
         case (int) FUNCTION:
-            op = new MatOp_function(FUN_function_r, n, n, sigmar, sigmai, needSolve);
+            op = new MatOp_function(FUN_function_r, n, n, needSolve);
             break;
         default:
             Rcpp::stop("unsupported matrix type in eigs()");

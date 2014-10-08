@@ -54,10 +54,10 @@ void MatOp_function::prod(double *x_in, double *y_out)
 {
     Rcpp::NumericVector y(n);
     Rcpp::NumericVector x(n);
-    for(i = 0; i<n; i++){
+    for(int i = 0; i<n; i++){
         x[i] = *(x_in + i);
     }
-    y = FUN_function_(Rcpp::NumericVector(x_in));
+    y = FUN_function_(x);
     y_out = y.begin();
 }
 
@@ -65,10 +65,10 @@ void MatOp_function::tprod(double *x_in, double *y_out)
 {
     Rcpp::NumericVector y(n);
     Rcpp::NumericVector x(n);
-    for(i = 0; i<n; i++){
+    for(int i = 0; i<n; i++){
         x[i] = *(x_in + i);
     }
-    y = FUN_function_(Rcpp::NumericVector(x_in));
+    y = FUN_function_(x);
     y_out = y.begin();
 }
 
