@@ -1,6 +1,7 @@
 #include <RcppEigen.h>
 #include "EigsSym.h"
 #include "EigsGen.h"
+#include "EigsFun.h"
 #include "MatTypes.h"
 
 using Rcpp::as;
@@ -87,6 +88,48 @@ RcppExport SEXP eigs_gen(SEXP A_mat_r, SEXP n_scalar_r, SEXP k_scalar_r,
             break;
         case (int) DGRMATRIX:
             op = new MatOp_dgRMatrix(A_mat_r, n, n, sigmar, sigmai, needSolve);
+            break;
+        default:
+            Rcpp::stop("unsupported matrix type in eigs()");
+    }
+
+    EigsGen eig(n, nev, ncv, op, which, workmode,
+                bmat, tol, maxitr);
+    eig.compute(retvec);
+    SEXP res = eig.extract();
+
+    delete op;
+
+    return res;
+
+    END_RCPP
+}
+
+RcppExport SEXP eigs_fun(SEXP FUN_function_r, SEXP n_scalar_r, SEXP k_scalar_r,
+                         SEXP params_list_r, SEXP mattype_scalar_r)
+{
+    BEGIN_RCPP
+
+    Rcpp::List params_rcpp(params_list_r);
+    
+    int n = as<int>(n_scalar_r);
+    int nev = as<int>(k_scalar_r);
+    int ncv = as<int>(params_rcpp["ncv"]);
+    string which = as<string>(params_rcpp["which"]);
+    int workmode = as<int>(params_rcpp["workmode"]);
+    double sigmar = as<double>(params_rcpp["sigmar"]);
+    double sigmai = as<double>(params_rcpp["sigmai"]);
+    char bmat = 'I';
+    double tol = as<double>(params_rcpp["tol"]);
+    int maxitr = as<int>(params_rcpp["maxitr"]);
+    bool needSolve = (workmode != 1);
+    bool retvec = as<bool>(params_rcpp["retvec"]);
+
+    MatOp *op = NULL;
+    switch(as<int>(mattype_scalar_r))
+    {
+        case (int) FUNCTION:
+            op = new MatOp_function(FUN_function_r, n, n, sigmar, sigmai, needSolve);
             break;
         default:
             Rcpp::stop("unsupported matrix type in eigs()");
