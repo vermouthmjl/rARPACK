@@ -43,7 +43,7 @@ void MatOp_function::init()
 }
 
 MatOp_function::MatOp_function(Rcpp::Function FUN_function_r, int m_, int n_,
-                 bool needSolve_ = false):
+                 bool needSolve_):
     MatOp(m_, n_, 0, 0, true, needSolve_),
     FUN_function_(FUN_function_r)
 {
@@ -52,13 +52,23 @@ MatOp_function::MatOp_function(Rcpp::Function FUN_function_r, int m_, int n_,
 
 void MatOp_function::prod(double *x_in, double *y_out)
 {
-    Rcpp::NumericVector y = FUN_function_(Rcpp::NumericVector(x_in));
+    Rcpp::NumericVector y(n);
+    Rcpp::NumericVector x(n);
+    for(i = 0; i<n; i++){
+        x[i] = *(x_in + i);
+    }
+    y = FUN_function_(Rcpp::NumericVector(x_in));
     y_out = y.begin();
 }
 
 void MatOp_function::tprod(double *x_in, double *y_out)
 {
-    Rcpp::NumericVector y = FUN_function_(Rcpp::NumericVector(x_in));
+    Rcpp::NumericVector y(n);
+    Rcpp::NumericVector x(n);
+    for(i = 0; i<n; i++){
+        x[i] = *(x_in + i);
+    }
+    y = FUN_function_(Rcpp::NumericVector(x_in));
     y_out = y.begin();
 }
 
