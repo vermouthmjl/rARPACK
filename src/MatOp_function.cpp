@@ -66,12 +66,14 @@ void MatOp_function::prod(double *x_in, double *y_out)
 void MatOp_function::tprod(double *x_in, double *y_out)
 {
     Rcpp::NumericVector y(n);
-    Rcpp::NumericVector x(n);
+    Rcpp::NumericVector x(n, 1.0);
     for(int i = 0; i<n; i++){
         x[i] = *(x_in + i);
     }
     y = FUN_function_(x);
-    y_out = y.begin();
+    for(int i = 0; i<n; i++){
+        *(y_out + i) = y[i];
+    }
 }
 
 // void MatOp_function::shiftSolve(double *x_in, double *y_out)

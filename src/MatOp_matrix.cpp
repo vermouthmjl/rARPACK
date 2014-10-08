@@ -65,16 +65,10 @@ MatOp_matrix::MatOp_matrix(SEXP mat_, int m_, int n_,
 
 void MatOp_matrix::prod(double *x_in, double *y_out)
 {
-    for(int i = 0; i<n; i++){
-        std::cout << std::to_string(*(x_in + i)) <<std::endl;
-    }
     F77_CALL(dgemv)(&BLAS_notrans, &m, &n,
             &BLAS_alpha, A_pntr, &m,
             x_in, &BLAS_one, &BLAS_zero,
             y_out, &BLAS_one);
-    for(int i = 0; i<n; i++){
-        std::cout << std::to_string(*(y_out + i)) <<std::endl;
-    }
 }
 
 void MatOp_matrix::tprod(double *x_in, double *y_out)
