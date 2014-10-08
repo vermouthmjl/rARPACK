@@ -168,7 +168,7 @@ eigs.dsyMatrix <- function(A, k, which = "LM", sigma = NULL,
 eigs.function <- function(FUN, k, which = "LM", sigma = NULL,
                            opts = list(), n, ...)
     eigs.fun(FUN, n, k, which, sigma, opts, ...,
-                  mattype = "function")
+                  mattype = "FUNCTION")
 
 
 
@@ -189,4 +189,4 @@ eigs_sym <- function(A, k, which = "LM", sigma = NULL, opts = list(), ..., lower
 
 # Matrix types
 MATTYPES = c("matrix" = 0L, "dgeMatrix" = 1L, "dsyMatrix" = 2L,
-             "dgCMatrix" = 3L, "dgRMatrix" = 4L, "function" = 5L);
+             "dgCMatrix" = 3L, "dgRMatrix" = 4L, "FUNCTION" = 5L);

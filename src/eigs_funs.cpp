@@ -116,8 +116,6 @@ RcppExport SEXP eigs_fun(SEXP FUN_function_r, SEXP n_scalar_r, SEXP k_scalar_r,
     int ncv = as<int>(params_rcpp["ncv"]);
     string which = as<string>(params_rcpp["which"]);
     int workmode = as<int>(params_rcpp["workmode"]);
-    double sigmar = as<double>(params_rcpp["sigmar"]);
-    double sigmai = as<double>(params_rcpp["sigmai"]);
     char bmat = 'I';
     double tol = as<double>(params_rcpp["tol"]);
     int maxitr = as<int>(params_rcpp["maxitr"]);
